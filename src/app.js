@@ -7,7 +7,7 @@ async function startServer() {
     const app = express();
     const sequelize = new Sequelize({
         dialect: 'sqlite',
-        storage: '../../database.sqlite'
+        storage: './database.sqlite'
     });
 
     await loaders({ expressApp: app, sequelize });

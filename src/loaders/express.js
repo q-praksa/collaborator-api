@@ -3,7 +3,7 @@ const express = require('express');
 const config = require('../config');
 const routes = require('../api');
 
-module.exports = ({ app }) => {
+module.exports = ({ app, db }) => {
     /**
      * Health Check endpoints
      */
@@ -18,5 +18,5 @@ module.exports = ({ app }) => {
 
     app.use(express.json());
 
-    app.use(config.api.prefix, routes());
+    app.use(config.api.prefix, routes(db));
 }
