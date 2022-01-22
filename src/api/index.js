@@ -1,11 +1,9 @@
 const { Router } = require('express');
-const auth = require('./routes/auth');
-// const user = require('./routes/user');
+const auth = require('./auth/routes');
 
-module.exports = (db) => {
+module.exports = () => {
 	const app = Router();
-	auth(app, db);
-	// user(app);
+	auth(app);
 
 	return app
 }
