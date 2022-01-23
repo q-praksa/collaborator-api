@@ -57,9 +57,6 @@ module.exports = (sequelize, DataTypes) => {
       img: {
         type: DataTypes.TEXT,
       },
-      age: {
-        type: DataTypes.INTEGER,
-      },
     },
     {
       sequelize,
