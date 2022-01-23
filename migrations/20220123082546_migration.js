@@ -11,7 +11,7 @@ const Sequelize = require("sequelize");
 const info = {
   revision: 1,
   name: "migration",
-  created: "2022-01-23T08:10:25.171Z",
+  created: "2022-01-23T08:25:46.353Z",
   comment: "",
 };
 
@@ -57,7 +57,12 @@ const migrationCommands = (transaction) => [
           primaryKey: true,
           allowNull: false,
         },
-        username: { type: Sequelize.TEXT, field: "username", allowNull: false },
+        email: {
+          type: Sequelize.TEXT,
+          field: "email",
+          allowNull: false,
+          unique: true,
+        },
         password: { type: Sequelize.TEXT, field: "password", allowNull: false },
         role: { type: Sequelize.TEXT, field: "role", defaultValue: "user" },
         age: { type: Sequelize.INTEGER, field: "age" },

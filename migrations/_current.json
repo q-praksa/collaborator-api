@@ -39,9 +39,10 @@
                     "field": "id",
                     "seqType": "Sequelize.UUID"
                 },
-                "username": {
+                "email": {
+                    "unique": true,
                     "allowNull": false,
-                    "field": "username",
+                    "field": "email",
                     "seqType": "Sequelize.TEXT"
                 },
                 "password": {

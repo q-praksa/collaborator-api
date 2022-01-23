@@ -11,21 +11,21 @@ module.exports = (app) => {
 
     route.post(
         '/signup', async (req, res) => {
-        if (!req.body || !req.body.username || !req.body.password) {
-            return res.status(400).send('Username and password cannot be empty');
+        if (!req.body || !req.body.email || !req.body.password) {
+            return res.status(400).send('Email and password cannot be empty');
         }
 
-        const {username, password} = req.body; 
-        const user = await userService.findOne({username});
+        const {email, password} = req.body; 
+        const user = await userService.findOne({email});
 
         if (user) {
             // TODO: Research, maybe not a good practice to send 409
-            // Security risk: server shouldn't expose which usernames are taken?
-            return res.status(409).send('Username already taken');
+            // Security risk: server shouldn't expose which email addresses are taken?
+            return res.status(409).send('Email already taken');
         }
 
         const payload = {
-            username,
+            email,
             password,
         }
 
@@ -40,14 +40,14 @@ module.exports = (app) => {
     });
 
     route.post('/login', async (req, res) => {
-        if (!req.body || !req.body.username || !req.body.password) {
-            return res.status(400).send('Username and password cannot be empty');
+        if (!req.body || !req.body.email || !req.body.password) {
+            return res.status(400).send('Email and password cannot be empty');
         }
 
         let user;
 
         try {
-            user = await userService.findOne({username: req.body.username});
+            user = await userService.findOne({email: req.body.email});
         } catch(e) {
             return res.status(500).send();
         }
@@ -75,6 +75,7 @@ module.exports = (app) => {
             await authService.logOut(req.body.refreshToken);
             res.sendStatus(200);
         } catch(e) {
+            console.error({e})
             res.sendStatus(500);
         }
     });

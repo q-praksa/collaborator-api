@@ -21,8 +21,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true,
       },
-      username: {
+      email: {
         type: DataTypes.TEXT,
+        unique: true,
         validate: {
           notEmpty: true,
         },

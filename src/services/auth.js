@@ -4,14 +4,14 @@ const userService = require('./user');
 const { v4: uuidv4 } = require('uuid');
 const refreshTokenService = require('./refreshToken');
 
-async function signUp({username, password}) {
+async function signUp({email, password}) {
     try {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const createdUser = await userService.create({
             id: uuidv4(),
-            username: username,
+            email: email,
             password: hashedPassword,
         });
         return createdUser;
@@ -52,7 +52,7 @@ async function logIn({user, password}) {
 }
 
 async function logOut(refreshToken) {
-    return await refreshTokenService.destroy({where: {value: refreshToken}});
+    return await refreshTokenService.destroy({value: refreshToken});
 }
 
 async function refreshToken(refreshToken) {
