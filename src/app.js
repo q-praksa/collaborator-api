@@ -3,12 +3,11 @@ const loaders = require('./loaders');
 const config = require('./config');
 require('./models');
 
-let app;
+const app = express();
 
 async function startServer() {
-    const app = express();
-
-    await loaders({ expressApp: app });
+  
+    await loaders(app);
 
     app.listen(config.port, () => {
         console.info(`
@@ -24,4 +23,4 @@ async function startServer() {
 
 startServer();
 
-module.exports = app;
+module.exports = {app};
