@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.belongsToMany(models.Project, { through: 'Project_Team' });
     }
   }
   User.init(
@@ -36,9 +37,22 @@ module.exports = (sequelize, DataTypes) => {
         },
         allowNull: false,
       },
+      address: {
+        type: DataTypes.TEXT,
+      },
+      job: {
+        type: DataTypes.TEXT,
+        defaultValue: "Front-End",
+      },
       role: {
         type: DataTypes.TEXT,
         defaultValue: "user",
+      },
+      skills: {
+        type: DataTypes.JSON,
+      },
+      img: {
+        type: DataTypes.TEXT,
       },
       age: {
         type: DataTypes.INTEGER,
