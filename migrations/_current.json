@@ -167,6 +167,10 @@
                     "field": "id",
                     "seqType": "Sequelize.UUID"
                 },
+                "fullname": {
+                    "field": "fullname",
+                    "seqType": "Sequelize.TEXT"
+                },
                 "email": {
                     "unique": true,
                     "allowNull": false,
@@ -263,5 +267,5 @@
     "path": "E:\\programiranje\\node\\collaborator-api\\migrations\\_current.json",
     "backupPath": "E:\\programiranje\\node\\collaborator-api\\migrations\\_current_bak.json",
     "exists": true,
-    "revision": 4
+    "revision": 5
 }
