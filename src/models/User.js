@@ -22,6 +22,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true,
       },
+      fullname: {
+        type: DataTypes.TEXT,
+      },
       email: {
         type: DataTypes.TEXT,
         unique: true,
