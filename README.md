@@ -8,6 +8,7 @@ API for the collaborator project https://github.com/q-praksa/collaborator
 ## Install
 `npm i -g sequelize-cli`  
 `npm i -g sequelize-mig`  
+`npm i -g nodemon`  
 `npm i`  
 
 ## Usage
