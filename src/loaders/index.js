@@ -1,6 +1,7 @@
-const express = require('./express');
- 
-module.exports = async (app) => {
-    await express(app);
+const express = require("./express").appFunction;
 
-}
+module.exports = async (app) => {
+  await express(app);
+};
+
+console.log(express);
