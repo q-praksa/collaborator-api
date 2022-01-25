@@ -30,4 +30,18 @@ async function addNewUser({ email, password }) {
   }
 }
 
-module.exports = { findOne, create, findAll, addNewUser };
+async function deleteUser({ id }) {
+  return await User.destroy({ where: { id } });
+}
+
+async function updateUser({ id, values }) {
+  return await User.update(values, { where: { id } });
+}
+module.exports = {
+  findOne,
+  create,
+  findAll,
+  addNewUser,
+  deleteUser,
+  updateUser,
+};
