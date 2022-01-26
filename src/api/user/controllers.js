@@ -1,4 +1,4 @@
-const userService = require("../../services/user");
+const userService = require('../../services/user');
 
 const getAllUsers = async (req, res) => {
   try {
@@ -12,14 +12,14 @@ const getAllUsers = async (req, res) => {
 
 const addUser = async (req, res) => {
   if (!req.body || !req.body.email || !req.body.password) {
-    return res.status(400).send("Email and password cannot be empty");
+    return res.status(400).send('Email and password cannot be empty');
   }
 
   const { email, password } = req.body;
   const user = await userService.findOne({ email });
 
   if (user) {
-    return res.status(409).send("Email already taken");
+    return res.status(409).send('Email already taken');
   }
 
   const payload = {
@@ -38,21 +38,19 @@ const addUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   if (!req.body || !req.body.id) {
-    return res.status(400).send("User ID must be passed to the request");
+    return res.status(400).send('User ID must be passed to the request');
   }
 
   const { id } = req.body;
   const { isAdmin } = req;
   if (!isAdmin) {
-    return res
-      .status(403)
-      .send("You must have admin priviliges for this operation");
+    return res.status(403).send('Forbidden');
   }
 
   const user = await userService.findOne({ id });
 
   if (!user) {
-    return res.status(406).send("User with that id does not exists");
+    return res.status(406).send('User with that id does not exists');
   }
 
   const payload = {
@@ -61,7 +59,7 @@ const deleteUser = async (req, res) => {
 
   try {
     await userService.deleteUser(payload);
-    res.status(201).send("User with that id has been deleted");
+    res.status(200).send('Removed');
   } catch {
     res.status(500).send();
   }
@@ -69,33 +67,29 @@ const deleteUser = async (req, res) => {
 
 const getUserById = async (req, res) => {
   if (!req.params) {
-    return res.status(400).send("ID as param required");
+    return res.status(400).send('Missing ID param');
   }
 
-  const { id } = req.params;
-  const payload = {
-    id,
-  };
-
-  try {
-    const foundUser = await userService.findOne(payload);
-    const { password, ...retVal } = foundUser.dataValues;
-    res.status(201).send(retVal);
-  } catch {
-    res.status(404).send("User not found");
+  if (!req.body.user) {
+    return res.status(400).send('User not found');
   }
+
+  const user = req.body.user;
+
+  const { password, ...retVal } = user.dataValues;
+  res.status(201).send(retVal);
 };
 
 const updateUser = async (req, res) => {
   if (!req.body) {
-    return res.status(400).send("Body is required");
+    return res.status(400).send('Body is required');
   }
 
   const { id, ...updateFields } = req.body;
   const foundUser = await userService.findOne({ id });
 
   if (!foundUser) {
-    return res.status(404).send("User does not exist");
+    return res.status(404).send('User does not exist');
   }
 
   const payload = {
@@ -105,7 +99,7 @@ const updateUser = async (req, res) => {
 
   try {
     await userService.updateUser(payload);
-    res.status(200).send("User updated");
+    res.status(200).send('User updated');
   } catch {
     res.status(500).send();
   }
