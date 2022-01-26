@@ -3,7 +3,7 @@ const express = require("express");
 const config = require("../config");
 const routes = require("../api");
 
-module.exports.appFunction = (app) => {
+module.exports = (app) => {
   /**
    * Health Check endpoints
    */
@@ -20,5 +20,3 @@ module.exports.appFunction = (app) => {
 
   app.use(config.api.prefix, routes());
 };
-
-module.exports.expressLibrary = express;
