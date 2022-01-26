@@ -11,6 +11,7 @@ API for the collaborator project https://github.com/q-praksa/collaborator
 `npm i`  
 
 ## Usage
+`npm run migrate`
 `npm run dev`
 
 ## Migrating DB
