@@ -1,18 +1,17 @@
+const { Router } = require("express");
 
-const { Router } = require('express');
-
-const controller = require('./controllers');
+const controller = require("./controllers");
 
 const route = Router();
 
 module.exports = (app) => {
-    app.use('/auth', route);
+  app.use("/auth", route);
 
-    route.post('/signup', controller.signUp);
+  route.post("/signup", controller.signUp);
 
-    route.post('/login', controller.logIn);
+  route.post("/login", controller.logIn);
 
-    route.delete('/logout', controller.logOut);
+  route.delete("/logout", controller.logOut);
 
-    route.post('/token', controller.refreshToken);
-}
+  route.post("/token", controller.refreshToken);
+};
