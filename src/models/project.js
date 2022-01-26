@@ -1,5 +1,5 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict';
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Project extends Model {
     /**
@@ -9,10 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Project.belongsToMany(models.User, { through: "Project_Team" });
+      Project.belongsToMany(models.User, { through: 'Project_Team' });
       Project.belongsTo(models.Client);
-      Project.belongsTo(models.User, {foreignKey: 'lead' });
-      Project.belongsTo(models.User, {foreignKey: 'manager' });
+      Project.belongsTo(models.User, { foreignKey: 'lead' });
+      Project.belongsTo(models.User, { foreignKey: 'manager' });
+      Project.hasMany(models.Timesheet);
     }
   }
   Project.init(
@@ -27,11 +28,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       status: {
         type: DataTypes.TEXT,
-        defaultValue: "Active",
+        defaultValue: 'Active',
       },
       teamType: {
         type: DataTypes.TEXT,
-        defaultValue: "Dedicated",
+        defaultValue: 'Dedicated',
       },
       startDate: {
         type: DataTypes.DATE,
@@ -43,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "project",
+      modelName: 'project',
     }
   );
   return Project;
