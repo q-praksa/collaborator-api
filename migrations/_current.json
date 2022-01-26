@@ -56,6 +56,11 @@
                     "field": "id",
                     "seqType": "Sequelize.UUID"
                 },
+                "projectName": {
+                    "allowNull": true,
+                    "field": "projectName",
+                    "seqType": "Sequelize.TEXT"
+                },
                 "status": {
                     "defaultValue": {
                         "value": "Active"
@@ -260,8 +265,8 @@
             "indexes": []
         }
     },
-    "path": "E:\\programiranje\\node\\collaborator-api\\migrations\\_current.json",
-    "backupPath": "E:\\programiranje\\node\\collaborator-api\\migrations\\_current_bak.json",
+    "path": "C:\\Users\\Quantox\\Bojana\\Projects\\collaborator-api\\migrations\\_current.json",
+    "backupPath": "C:\\Users\\Quantox\\Bojana\\Projects\\collaborator-api\\migrations\\_current_bak.json",
     "exists": true,
-    "revision": 6
+    "revision": 7
 }

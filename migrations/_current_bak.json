@@ -208,10 +208,6 @@
                     "field": "img",
                     "seqType": "Sequelize.TEXT"
                 },
-                "age": {
-                    "field": "age",
-                    "seqType": "Sequelize.INTEGER"
-                },
                 "createdAt": {
                     "allowNull": false,
                     "field": "createdAt",
@@ -267,5 +263,5 @@
     "path": "E:\\programiranje\\node\\collaborator-api\\migrations\\_current.json",
     "backupPath": "E:\\programiranje\\node\\collaborator-api\\migrations\\_current_bak.json",
     "exists": true,
-    "revision": 5
+    "revision": 6
 }
