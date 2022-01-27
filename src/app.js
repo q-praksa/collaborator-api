@@ -3,8 +3,6 @@ const loaders = require("./loaders");
 const config = require("./config");
 require("./models");
 
-const helmetLoader = require("./loaders/helmet");
-
 const app = express();
 
 async function startServer() {
