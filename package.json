@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^13.0.1",
     "express": "^4.17.2",
+    "helmet": "^5.0.2",
     "express-rate-limit": "^6.2.0",
     "helmet": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
