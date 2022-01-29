@@ -1,18 +1,27 @@
 const projectService = require('../../services/project');
-const getUserById = require('../user/controllers');
 
-const getAllProjects = async (req, res) => {
-    const { isAdmin } = req;
-    if (!isAdmin) {
-        return res.status(403).send('Forbidden');
-    }
+const getAllProjects = async (req, res) => {     
+    const { isAdmin,userId } = req;    
+    if (isAdmin !="true") {        
+        try {
+            const projectsByUser =await  projectService.findAllProjectsByUserId(userId);            
+            res.json(projectsByUser);            
+        } catch (error) {
+            console.log(error);
+            res.sendStatus(500);                      
+        }               
+        return;
+    }    
+    
     try {
-        const projects = await projectService.findAll();
+        const projects = await projectService.findAll();        
         res.json(projects);
+
     } catch (error) {
         console.log(error);
-        res.sendStatus(500);
+        res.sendStatus(500);       
     }
+    
 };
 
 const addProject = async (req, res) => {
@@ -103,27 +112,19 @@ const updateProject = async (req, res) => {
     }
 };
 
-const findAllProjectsByUserId = async (req, res) => {
+const getProjectById = async (req, res) => {
     if (!req.params) {
         return res.status(400).send('Missing ID param');
     }
-    if (!req.body || !req.body.id) {
-        return res.status(400).send('ID is required');
-    }
-    const { id } = req.body;
+    
+    if (!req.body.project) {
+        return res.status(400).send('Project not found');
+      }
+    
+    const project = req.body.project;
 
-    const user = await userService.findOne({ id });
-    console.log('Users id', usersId);
-    try {
-        const usersProjects = await projectService.findAllProjectsByUserId(
-            usersId
-        );
-        res.json(usersProjects);
-        console.log(usersProjects);
-    } catch (error) {
-        console.log(error);
-        res.sendStatus(500);
-    }
+    const {...retVal}=project.dataValues;
+    res.status(201).send(retVal);   
 };
 
 module.exports = {
@@ -131,5 +132,5 @@ module.exports = {
     addProject,
     deleteProject,
     updateProject,
-    findAllProjectsByUserId,
+    getProjectById
 };

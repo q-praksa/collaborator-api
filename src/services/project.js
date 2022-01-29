@@ -1,4 +1,4 @@
-const { Project, User } = require('../models');
+const { Project, User} = require('../models');
 const { v4: uuidv4 } = require('uuid');
 
 async function findAll() {
@@ -35,11 +35,14 @@ async function updateProject({ id, values }) {
 }
 
 async function findAllProjectsByUserId({ id }) {
-    return await User.getProjects({ where: { id: id } });
-    // return await Project.findAll({
-    //     include: [{ model: User, where: { id: id } }],
-    // });
-    // return await Project.findAll({ where: { id: userId } });
+    
+    return await User.findOne({
+        where:id,
+        attributes:["id","fullname"],
+        include:[{
+            model:Project            
+        }]
+    })
 }
 
 module.exports = {
