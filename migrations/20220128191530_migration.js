@@ -8,11 +8,11 @@ const Sequelize = require("sequelize");
  * createTable() => "users", deps: []
  * createTable() => "projects", deps: [clients, users, users]
  * createTable() => "Project_Users", deps: [projects, users]
- *
+ * dropTable() => "Project_Team", deps: [projects, users]
  */
 
 const info = {
-  revision: 1,
+  revision: 9,
   name: "migration",
   created: "2022-01-28T19:15:30.003Z",
   comment: "",
@@ -226,6 +226,10 @@ const migrationCommands = (transaction) => [
       { transaction },
     ],
   },
+  {
+    fn:"dropTable",
+    params:["Project_Team", {transaction}]
+  }
 ];
 
 const rollbackCommands = (transaction) => [
@@ -248,6 +252,41 @@ const rollbackCommands = (transaction) => [
   {
     fn: "dropTable",
     params: ["users", { transaction }],
+  },
+  {
+    fn: "createTable",
+    params: [
+      "Project_Team",
+      {
+        createdAt: {
+          type: Sequelize.DATE,
+          field: "createdAt",
+          allowNull: false,
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          field: "updatedAt",
+          allowNull: false,
+        },
+        projectId: {
+          type: Sequelize.UUID,
+          field: "projectId",
+          onUpdate: "CASCADE",
+          onDelete: "CASCADE",
+          references: { model: "projects", key: "id" },
+          primaryKey: true,
+        },
+        userId: {
+          type: Sequelize.UUID,
+          field: "userId",
+          onUpdate: "CASCADE",
+          onDelete: "CASCADE",
+          references: { model: "users", key: "id" },
+          primaryKey: true,
+        },
+      },
+      { transaction },
+    ],
   },
 ];
 
