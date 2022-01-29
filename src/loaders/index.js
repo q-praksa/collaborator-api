@@ -1,6 +1,7 @@
-const express = require('./express');
- 
-module.exports = async (app) => {
-    await express(app);
+const express = require("./express");
+const helmetLoader = require("./helmet");
 
-}
+module.exports = async (app) => {
+  await helmetLoader(app);
+  await express(app);
+};
