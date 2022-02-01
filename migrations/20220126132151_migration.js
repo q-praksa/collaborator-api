@@ -3,6 +3,7 @@ const Sequelize = require("sequelize");
 /**
  * Actions summary:
  *
+ * createTable() => "Timesheets", deps:[clients]
  * removeColumn(clientId) => "Timesheets"
  * addColumn(projectId) => "Timesheets"
  * addColumn(userId) => "Timesheets"
@@ -17,6 +18,49 @@ const info = {
 };
 
 const migrationCommands = (transaction) => [
+  {
+    fn: "createTable",
+    params: [
+      "Timesheets",
+      {
+        id: {
+          type: Sequelize.UUID,
+          field: "id",
+          primaryKey: true,
+          allowNull: false,
+        },
+        timeSpent: {
+          type: Sequelize.NUMBER,
+          field: "timeSpent",
+          allowNull: false,
+        },
+        description: {
+          type: Sequelize.TEXT,
+          field: "description",
+          allowNull: false,
+        },  
+        clientId:{
+          type:Sequelize.UUID,
+          field:"clientId",
+          onUpdate:"CASCADE",
+          onDelete:"CASCADE",
+          references:{model:"clients", key:"id"},
+          allowNull:true,
+        },     
+        createdAt: {
+          type: Sequelize.DATE,
+          field: "createdAt",
+          allowNull: false,
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          field: "updatedAt",
+          allowNull: false,
+        },
+      },
+      { transaction },
+    ],
+  },
   {
     fn: "removeColumn",
     params: ["Timesheets", "clientId", { transaction }],
@@ -56,6 +100,10 @@ const migrationCommands = (transaction) => [
 ];
 
 const rollbackCommands = (transaction) => [
+  {
+    fn:"dropTable",
+    params:["Timesheets", { transaction }]
+  },
   {
     fn: "removeColumn",
     params: ["Timesheets", "projectId", { transaction }],
