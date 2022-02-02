@@ -3,8 +3,9 @@ const bcrypt = require('bcrypt');
 const userService = require('./user');
 const { v4: uuidv4 } = require('uuid');
 const refreshTokenService = require('./refreshToken');
+const { accessTokenSecret, refreshTokenSecret } = require('../config/index');
 
-async function signUp({email, password}) {
+async function signUp({ email, password }) {
     try {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -16,25 +17,27 @@ async function signUp({email, password}) {
         });
         return createdUser;
     } catch (e) {
-        throw new Error('SIGN_UP_FAILED')
+        throw new Error('SIGN_UP_FAILED');
     }
 }
 
 function generateAccessToken(user) {
-    const accessToken = jwt.sign({userId: user.id}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '30m'})
+    const accessToken = jwt.sign({ userId: user.id }, accessTokenSecret, {
+        expiresIn: '30m',
+    });
     return accessToken;
 }
 
 function generateRefreshToken(user) {
-    const refreshToken = jwt.sign({userId: user.id}, process.env.REFRESH_TOKEN_SECRET);
+    const refreshToken = jwt.sign({ userId: user.id }, refreshTokenSecret);
     return refreshToken;
 }
 
-async function logIn({user, password}) {
+async function logIn({ user, password }) {
     let isPasswordValid;
     try {
         isPasswordValid = await bcrypt.compare(password, user.password);
-    } catch(e) {
+    } catch (e) {
         throw new Error('PASSWORD_CHECK_FAILED');
     }
     if (!isPasswordValid) {
@@ -42,28 +45,27 @@ async function logIn({user, password}) {
     }
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
+    const role = user.role;
     try {
-        await refreshTokenService.create({value: refreshToken});
-    } catch(e) {
+        await refreshTokenService.create({ value: refreshToken });
+    } catch (e) {
         throw new Error('REFRESH_TOKEN_CREATE_FAIL');
     }
-
-    return {accessToken, refreshToken};
+    return { accessToken, refreshToken, role };
 }
 
 async function logOut(refreshToken) {
-    return await refreshTokenService.destroy({value: refreshToken});
+    return await refreshTokenService.destroy({ value: refreshToken });
 }
 
 async function refreshToken(refreshToken) {
     let accessToken;
     let tokenVerified = true;
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    jwt.verify(refreshToken, refreshTokenSecret, (err, user) => {
         if (err) {
             tokenVerified = false;
         }
-        accessToken = generateAccessToken({userId: user.id})
-        
+        accessToken = generateAccessToken({ userId: user.id });
     });
     if (!tokenVerified) {
         throw new Error('INVALID_TOKEN');
@@ -71,4 +73,4 @@ async function refreshToken(refreshToken) {
     return accessToken;
 }
 
-module.exports = {signUp, logIn, logOut, refreshToken}
+module.exports = { signUp, logIn, logOut, refreshToken };
