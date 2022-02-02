@@ -133,6 +133,40 @@
             },
             "indexes": []
         },
+        "Project_Users": {
+            "tableName": "Project_Users",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "projectId": {
+                    "unique": "Project_Users_userId_projectId_unique",
+                    "references": {
+                        "model": "projects",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "projectId",
+                    "seqType": "Sequelize.UUID"
+                },
+                "userId": {
+                    "unique": "Project_Users_userId_projectId_unique",
+                    "references": {
+                        "model": "users",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "userId",
+                    "seqType": "Sequelize.UUID"
+                }
+            },
+            "indexes": []
+        },
         "refreshTokens": {
             "tableName": "refreshTokens",
             "schema": {
@@ -159,6 +193,60 @@
                     "allowNull": false,
                     "field": "updatedAt",
                     "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "Timesheets": {
+            "tableName": "Timesheets",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "timeSpent": {
+                    "allowNull": false,
+                    "field": "timeSpent",
+                    "seqType": "Sequelize.NUMBER"
+                },
+                "description": {
+                    "allowNull": false,
+                    "field": "description",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "projectId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "projects",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "projectId",
+                    "seqType": "Sequelize.UUID"
+                },
+                "userId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "userId",
+                    "seqType": "Sequelize.UUID"
                 }
             },
             "indexes": []
@@ -225,48 +313,17 @@
                 }
             },
             "indexes": []
-        },
-        "Project_Team": {
-            "tableName": "Project_Team",
-            "schema": {
-                "createdAt": {
-                    "allowNull": false,
-                    "field": "createdAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "updatedAt": {
-                    "allowNull": false,
-                    "field": "updatedAt",
-                    "seqType": "Sequelize.DATE"
-                },
-                "projectId": {
-                    "primaryKey": true,
-                    "references": {
-                        "model": "projects",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "CASCADE",
-                    "field": "projectId",
-                    "seqType": "Sequelize.UUID"
-                },
-                "userId": {
-                    "primaryKey": true,
-                    "references": {
-                        "model": "users",
-                        "key": "id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "CASCADE",
-                    "field": "userId",
-                    "seqType": "Sequelize.UUID"
-                }
-            },
-            "indexes": []
         }
     },
+<<<<<<< HEAD
     "path": "C:\\Users\\Quantox\\Bojana\\Projects\\collaborator-api\\migrations\\_current.json",
     "backupPath": "C:\\Users\\Quantox\\Bojana\\Projects\\collaborator-api\\migrations\\_current_bak.json",
     "exists": true,
     "revision": 7
+=======
+    "path": "F:\\Bojana\\QuantoxPraksa\\Praksa2\\collaborator-api\\migrations\\_current.json",
+    "backupPath": "F:\\Bojana\\QuantoxPraksa\\Praksa2\\collaborator-api\\migrations\\_current_bak.json",
+    "exists": true,
+    "revision": 9
+>>>>>>> development
 }
