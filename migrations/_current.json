@@ -315,8 +315,22 @@
             "indexes": []
         }
     },
+<<<<<<< HEAD
+<<<<<<< HEAD
+    "path": "C:\\Users\\Quantox\\Bojana\\Projects\\collaborator-api\\migrations\\_current.json",
+    "backupPath": "C:\\Users\\Quantox\\Bojana\\Projects\\collaborator-api\\migrations\\_current_bak.json",
+    "exists": true,
+    "revision": 7
+=======
     "path": "F:\\Bojana\\QuantoxPraksa\\Praksa2\\collaborator-api\\migrations\\_current.json",
     "backupPath": "F:\\Bojana\\QuantoxPraksa\\Praksa2\\collaborator-api\\migrations\\_current_bak.json",
     "exists": true,
     "revision": 9
+>>>>>>> development
+=======
+    "path": "F:\\Bojana\\QuantoxPraksa\\Praksa2\\collaborator-api\\migrations\\_current.json",
+    "backupPath": "F:\\Bojana\\QuantoxPraksa\\Praksa2\\collaborator-api\\migrations\\_current_bak.json",
+    "exists": true,
+    "revision": 9
+>>>>>>> 15c7aba406044e2d5828fc6c2ffe8c79d04ede79
 }

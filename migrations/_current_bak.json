@@ -318,5 +318,13 @@
     "path": "F:\\Bojana\\QuantoxPraksa\\Praksa2\\collaborator-api\\migrations\\_current.json",
     "backupPath": "F:\\Bojana\\QuantoxPraksa\\Praksa2\\collaborator-api\\migrations\\_current_bak.json",
     "exists": true,
+<<<<<<< HEAD
+<<<<<<< HEAD
+    "revision": 6
+=======
     "revision": 9
+>>>>>>> development
+=======
+    "revision": 9
+>>>>>>> 15c7aba406044e2d5828fc6c2ffe8c79d04ede79
 }
