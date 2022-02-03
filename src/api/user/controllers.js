@@ -77,12 +77,12 @@ const getUserById = async (req, res) => {
   const user = req.body.user;
 
   const { password, ...retVal } = user.dataValues;
-  res.status(201).send(retVal);
+  res.status(200).send(retVal);
 };
 
 const updateUser = async (req, res) => {
-  if (!req.body) {
-    return res.status(400).send('Body is required');
+  if (!req.body || !req.body.id) {
+    return res.status(400).send('User ID is required');
   }
 
   const { id, ...updateFields } = req.body;
