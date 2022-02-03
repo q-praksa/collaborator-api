@@ -1,18 +1,18 @@
-const cors = require("cors");
-const express = require("express");
-const config = require("../config");
-const routes = require("../api");
-const { apiRequestLimiter } = require("./rateLimit");
+const cors = require('cors');
+const express = require('express');
+const config = require('../config');
+const routes = require('../api');
+const { apiRequestLimiter } = require('./rateLimit');
 
 module.exports = (app) => {
   /**
    * Health Check endpoints
    */
   app.use(apiRequestLimiter);
-  app.get("/status", (req, res) => {
+  app.get('/status', (req, res) => {
     res.status(200).end();
   });
-  app.head("/status", (req, res) => {
+  app.head('/status', (req, res) => {
     res.status(200).end();
   });
 
