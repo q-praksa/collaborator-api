@@ -1,27 +1,27 @@
 const projectService = require('../../services/project');
 
-const getAllProjects = async (req, res) => {     
-    const { isAdmin,userId } = req;    
-    if (isAdmin !="true") {        
+const getAllProjects = async (req, res) => {
+    const { isAdmin, userId } = req;
+    if (isAdmin != 'true') {
         try {
-            const projectsByUser =await  projectService.findAllProjectsByUserId(userId);            
-            res.json(projectsByUser);            
+            const projectsByUser = await projectService.findAllProjectsByUserId(
+                userId
+            );
+            res.json(projectsByUser);
         } catch (error) {
             console.log(error);
-            res.sendStatus(500);                      
-        }               
+            res.sendStatus(500);
+        }
         return;
-    }    
-    
-    try {
-        const projects = await projectService.findAll();        
-        res.json(projects);
+    }
 
+    try {
+        const projects = await projectService.findAll();
+        res.json(projects);
     } catch (error) {
         console.log(error);
-        res.sendStatus(500);       
+        res.sendStatus(500);
     }
-    
 };
 
 const addProject = async (req, res) => {
@@ -116,15 +116,15 @@ const getProjectById = async (req, res) => {
     if (!req.params) {
         return res.status(400).send('Missing ID param');
     }
-    
+
     if (!req.body.project) {
         return res.status(400).send('Project not found');
-      }
-    
+    }
+
     const project = req.body.project;
 
-    const {...retVal}=project.dataValues;
-    res.status(201).send(retVal);   
+    const { ...retVal } = project.dataValues;
+    res.status(201).send(retVal);
 };
 
 module.exports = {
@@ -132,5 +132,5 @@ module.exports = {
     addProject,
     deleteProject,
     updateProject,
-    getProjectById
+    getProjectById,
 };

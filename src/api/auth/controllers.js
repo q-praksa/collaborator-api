@@ -7,8 +7,8 @@ const signUp = async (req, res) => {
         return res.status(400).send('Email and password cannot be empty');
     }
 
-    const {email, password} = req.body; 
-    const user = await userService.findOne({email});
+    const { email, password } = req.body;
+    const user = await userService.findOne({ email });
 
     if (user) {
         // TODO: Research, maybe not a good practice to send 409
@@ -19,17 +19,17 @@ const signUp = async (req, res) => {
     const payload = {
         email,
         password,
-    }
+    };
 
     try {
         const createdUser = await authService.signUp(payload);
         // Don't send hashed password back to the client side
-        const {password, ...retVal} = createdUser.dataValues;
+        const { password, ...retVal } = createdUser.dataValues;
         res.status(201).send(retVal);
     } catch {
         res.status(500).send();
     }
-}
+};
 
 const logIn = async (req, res) => {
     if (!req.body || !req.body.email || !req.body.password) {
@@ -37,10 +37,12 @@ const logIn = async (req, res) => {
     }
 
     let user;
+    let role;
 
     try {
-        user = await userService.findOne({email: req.body.email});
-    } catch(e) {
+        user = await userService.findOne({ email: req.body.email });
+        role = user.role;
+    } catch (e) {
         return res.status(500).send();
     }
 
@@ -49,15 +51,21 @@ const logIn = async (req, res) => {
     }
 
     try {
-        const {accessToken, refreshToken} = await authService.logIn({user: user.dataValues, password: req.body.password});
-        res.status(200).json({accessToken, refreshToken});
-    } catch(e) {
-        if (e.message === 'INVALID_PASSWORD' || e.message === 'PASSWORD_CHECK_FAILED') {
+        const { accessToken, refreshToken, role } = await authService.logIn({
+            user: user.dataValues,
+            password: req.body.password,
+        });
+        res.status(200).json({ accessToken, refreshToken, role });
+    } catch (e) {
+        if (
+            e.message === 'INVALID_PASSWORD' ||
+            e.message === 'PASSWORD_CHECK_FAILED'
+        ) {
             return res.status(401).send('Not allowed');
         }
         res.status(500).send();
     }
-}
+};
 
 const logOut = async (req, res) => {
     if (!req.body.refreshToken) {
@@ -66,11 +74,11 @@ const logOut = async (req, res) => {
     try {
         await authService.logOut(req.body.refreshToken);
         res.sendStatus(200);
-    } catch(e) {
-        console.error({e})
+    } catch (e) {
+        console.error({ e });
         res.sendStatus(500);
     }
-}
+};
 
 const refreshToken = async (req, res) => {
     const refreshToken = req.body.refreshToken;
@@ -78,16 +86,18 @@ const refreshToken = async (req, res) => {
     if (!refreshToken) {
         return res.sendStatus(401);
     }
-    const tokenExists = await refreshTokenService.findOne({value: refreshToken})
+    const tokenExists = await refreshTokenService.findOne({
+        value: refreshToken,
+    });
     if (!tokenExists) {
         return res.sendStatus(403);
     }
     try {
         const accessToken = await authService.refreshToken(refreshToken);
         res.json(accessToken);
-    } catch(e) {
+    } catch (e) {
         res.sendStatus(403);
     }
-}
+};
 
-module.exports = {signUp, logIn, logOut, refreshToken}
+module.exports = { signUp, logIn, logOut, refreshToken };
