@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.belongsToMany(models.Project, { through: models.Project_User });    
+      User.belongsToMany(models.Project, { through: models.Project_User });
       User.hasMany(models.Timesheet);
     }
   }
@@ -57,6 +57,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       img: {
         type: DataTypes.TEXT,
+      },
+      status: {
+        type: DataTypes.TEXT,
+        defaultValue: 'available',
       },
     },
     {
