@@ -12,7 +12,7 @@ const getAllClients = async (req, res) => {
 
 const addClient = async (req, res) => {
   if (!req.body || !req.body.companyName) {
-    return res.status(400).send('Project name cannot be empty');
+    return res.status(400).send('Client name cannot be empty');
   }
 
   const { isAdmin } = req;
@@ -33,7 +33,7 @@ const addClient = async (req, res) => {
 
   try {
     const createdClient = await clientService.addNewClient(payload);
-    const { ...retVal } = createdClient.dataValues;
+    const retVal = createdClient.dataValues;
     res.status(201).send(retVal);
   } catch {
     res.status(500).send();
@@ -108,8 +108,7 @@ const getClientById = async (req, res) => {
   }
 
   const client = req.body.client;
-
-  const { ...retVal } = client.dataValues;
+  const retVal = client.dataValues;
   res.status(200).send(retVal);
 };
 
