@@ -36,7 +36,7 @@ async function deleteTimesheet(req, res) {
       );
   }
 
-  const foundTimesheet = timesheetService.findOne(req.body.id);
+  const foundTimesheet = await timesheetService.findOne(req.body.id);
   if (!foundTimesheet) {
     res.status(404).send("There is no item under given id.");
   }
@@ -58,7 +58,7 @@ async function updateTimesheet(req, res) {
   }
 
   const { id, updateFields } = req.body;
-  const foundTimesheet = timesheetService.findOne(id);
+  const foundTimesheet = await timesheetService.findOne(id);
   if (!foundTimesheet) {
     return res.status(404).send("There is no item under given id.");
   }
