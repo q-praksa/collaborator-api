@@ -15,7 +15,7 @@ const addUser = async (req, res) => {
     return res.status(400).send('Email and password cannot be empty');
   }
 
-  const { email, password } = req.body;
+  const { email, password, ...optionalFields } = req.body;
   const user = await userService.findOne({ email });
 
   if (user) {
@@ -25,6 +25,7 @@ const addUser = async (req, res) => {
   const payload = {
     email,
     password,
+    ...optionalFields,
   };
 
   try {
