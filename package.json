@@ -16,6 +16,7 @@
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "date-fns": "^2.28.0",
+    "dayjs": "^1.10.7",
     "dotenv": "^13.0.1",
     "express": "^4.17.2",
     "express-rate-limit": "^6.2.0",
