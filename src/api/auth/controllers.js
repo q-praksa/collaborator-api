@@ -3,11 +3,16 @@ const authService = require('../../services/auth');
 const refreshTokenService = require('../../services/refreshToken');
 
 const signUp = async (req, res) => {
-  if (!req.body || !req.body.email || !req.body.password) {
-    return res.status(400).send('Email and password cannot be empty');
+  if (
+    !req.body ||
+    !req.body.email ||
+    !req.body.password ||
+    !req.body.fullname
+  ) {
+    return res.status(400).send('Email, password and fullname cannot be empty');
   }
 
-  const { email, password } = req.body;
+  const { email, password, fullname } = req.body;
   const user = await userService.findOne({ email });
 
   if (user) {
@@ -19,6 +24,7 @@ const signUp = async (req, res) => {
   const payload = {
     email,
     password,
+    fullname,
   };
 
   try {

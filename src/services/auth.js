@@ -1,11 +1,11 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const userService = require('./user');
-const { v4: uuidv4 } = require('uuid');
-const refreshTokenService = require('./refreshToken');
-const { accessTokenSecret, refreshTokenSecret } = require('../config/index');
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const userService = require("./user");
+const { v4: uuidv4 } = require("uuid");
+const refreshTokenService = require("./refreshToken");
+const { accessTokenSecret, refreshTokenSecret } = require("../config/index");
 
-async function signUp({ email, password }) {
+async function signUp({ email, password, fullname }) {
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -14,16 +14,17 @@ async function signUp({ email, password }) {
       id: uuidv4(),
       email: email,
       password: hashedPassword,
+      fullname: fullname,
     });
     return createdUser;
   } catch (e) {
-    throw new Error('SIGN_UP_FAILED');
+    throw new Error("SIGN_UP_FAILED");
   }
 }
 
 function generateAccessToken(user) {
   const accessToken = jwt.sign({ userId: user.id }, accessTokenSecret, {
-    expiresIn: '30m',
+    expiresIn: "30m",
   });
   return accessToken;
 }
@@ -38,10 +39,10 @@ async function logIn({ user, password }) {
   try {
     isPasswordValid = await bcrypt.compare(password, user.password);
   } catch (e) {
-    throw new Error('PASSWORD_CHECK_FAILED');
+    throw new Error("PASSWORD_CHECK_FAILED");
   }
   if (!isPasswordValid) {
-    throw new Error('INVALID_PASSWORD');
+    throw new Error("INVALID_PASSWORD");
   }
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
@@ -49,7 +50,7 @@ async function logIn({ user, password }) {
   try {
     await refreshTokenService.create({ value: refreshToken });
   } catch (e) {
-    throw new Error('REFRESH_TOKEN_CREATE_FAIL');
+    throw new Error("REFRESH_TOKEN_CREATE_FAIL");
   }
   return { accessToken, refreshToken, role };
 }
@@ -68,7 +69,7 @@ async function refreshToken(refreshToken) {
     accessToken = generateAccessToken({ userId: user.userId });
   });
   if (!tokenVerified) {
-    throw new Error('INVALID_TOKEN');
+    throw new Error("INVALID_TOKEN");
   }
   return accessToken;
 }
