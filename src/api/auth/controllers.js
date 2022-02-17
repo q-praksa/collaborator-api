@@ -1,6 +1,6 @@
-const userService = require("../../services/user");
-const authService = require("../../services/auth");
-const refreshTokenService = require("../../services/refreshToken");
+const userService = require('../../services/user');
+const authService = require('../../services/auth');
+const refreshTokenService = require('../../services/refreshToken');
 
 const signUp = async (req, res) => {
   if (
@@ -9,7 +9,7 @@ const signUp = async (req, res) => {
     !req.body.password ||
     !req.body.fullname
   ) {
-    return res.status(400).send("Email, password and fullname cannot be empty");
+    return res.status(400).send('Email, password and fullname cannot be empty');
   }
 
   const { email, password, fullname } = req.body;
@@ -18,7 +18,7 @@ const signUp = async (req, res) => {
   if (user) {
     // TODO: Research, maybe not a good practice to send 409
     // Security risk: server shouldn't expose which email addresses are taken?
-    return res.status(409).send("Email already taken");
+    return res.status(409).send('Email already taken');
   }
 
   const payload = {
@@ -39,7 +39,7 @@ const signUp = async (req, res) => {
 
 const logIn = async (req, res) => {
   if (!req.body || !req.body.email || !req.body.password) {
-    return res.status(400).send("Email and password cannot be empty");
+    return res.status(400).send('Email and password cannot be empty');
   }
 
   let user;
@@ -53,7 +53,7 @@ const logIn = async (req, res) => {
   }
 
   if (!user) {
-    return res.status(404).send("Cannot find user");
+    return res.status(404).send('Cannot find user');
   }
 
   try {
@@ -64,10 +64,10 @@ const logIn = async (req, res) => {
     res.status(200).json({ accessToken, refreshToken, role });
   } catch (e) {
     if (
-      e.message === "INVALID_PASSWORD" ||
-      e.message === "PASSWORD_CHECK_FAILED"
+      e.message === 'INVALID_PASSWORD' ||
+      e.message === 'PASSWORD_CHECK_FAILED'
     ) {
-      return res.status(401).send("Not allowed");
+      return res.status(401).send('Not allowed');
     }
     res.status(500).send();
   }

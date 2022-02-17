@@ -1,4 +1,6 @@
 const projectService = require('../../services/project');
+const projectUserService = require('../../services/project_user');
+const userService = require('../../services/user');
 
 const getAllProjects = async (req, res) => {
   const { isAdmin, userId } = req;
@@ -47,7 +49,7 @@ const addProject = async (req, res) => {
 
   try {
     const createdProject = await projectService.addNewProject(payload);
-    const { ...retVal } = createdProject.dataValues;
+    const retVal = createdProject.dataValues;
     res.status(201).send(retVal);
   } catch {
     res.status(500).send();
@@ -127,10 +129,63 @@ const getProjectById = async (req, res) => {
   res.status(200).send(retVal);
 };
 
+const addUsersToProject = async (req, res) => {
+  if (!req.body || !req.body.usersIDs) {
+    return res.status(400).send('usersIDs field is required');
+  }
+
+  if (!req.params) {
+    return res.status(400).send('Missing ID param');
+  }
+
+  if (!req.body.project) {
+    return res.status(400).send('Project not found');
+  }
+
+  const { isAdmin } = req;
+  if (!isAdmin) {
+    return res.status(403).send('Forbidden');
+  }
+
+  const project = req.body.project;
+  const { usersIDs } = req.body;
+
+  if (usersIDs.length === 0) {
+    return res.status(400).send('usersIDs list is empty');
+  }
+
+  const retVal = [];
+  const lastUserID = usersIDs[usersIDs.length - 1];
+  usersIDs.forEach(async (userID) => {
+    const payload = {
+      projectId: project.id,
+      userId: userID,
+    };
+
+    const isValidUser = userService.findOne({ id: userID });
+    if (!isValidUser) {
+      return;
+    }
+
+    try {
+      const createdProjectUser = await projectUserService.addNewProjectUser(
+        payload
+      );
+      retVal.push(createdProjectUser);
+      if (userID === lastUserID) {
+        res.status(200).send(retVal);
+      }
+    } catch {
+      res.status(500).send();
+    }
+  });
+};
+
 module.exports = {
   getAllProjects,
   addProject,
   deleteProject,
   updateProject,
   getProjectById,
+  addUsersToProject,
 };
