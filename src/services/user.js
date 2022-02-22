@@ -1,6 +1,6 @@
-const { User } = require("../models");
-const bcrypt = require("bcrypt");
-const { v4: uuidv4 } = require("uuid");
+const { User } = require('../models');
+const bcrypt = require('bcrypt');
+const { v4: uuidv4 } = require('uuid');
 
 async function findOne(condition) {
   return await User.findOne({ where: { ...condition } });
@@ -14,7 +14,7 @@ async function findAll() {
   return await User.findAll();
 }
 
-async function addNewUser({ email, password }) {
+async function addNewUser({ email, password, ...optionalFields }) {
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -23,10 +23,11 @@ async function addNewUser({ email, password }) {
       id: uuidv4(),
       email: email,
       password: hashedPassword,
+      ...optionalFields,
     });
     return createdUser;
   } catch (e) {
-    throw new Error("ADD_NEW_USER_FAILED");
+    throw new Error('ADD_NEW_USER_FAILED');
   }
 }
 
